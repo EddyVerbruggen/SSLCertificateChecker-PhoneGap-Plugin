@@ -8,8 +8,8 @@ by [Eddy Verbruggen](http://www.x-services.nl)
 	2. [Manually](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#manually)
 	2. [PhoneGap Build](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#phonegap-build)
 3. [Usage](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#3-usage)
-4. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-license)
-5. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-Credits)
+4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-Credits)
+5. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-License)
 
 ## 1. Description
 
