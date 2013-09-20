@@ -3,8 +3,7 @@
 for iOS and (soon) Android, by [Eddy Verbruggen](http://www.x-services.nl)
 
 
-TODO
-
+TODO !!
 
 
 1. [Description](https://github.com/EddyVerbruggen/CameraRoll-PhoneGap-Plugin#1-description)
@@ -110,7 +109,7 @@ Counting the number of photos in the photo library:
   // prep some variables
   var includePhotos = true;
   var includeVideos = false;
-  window.plugins.cameraRoll.count(includePhotos, includeVideos, cameraRollCountResult, cameraRollError);
+  window.plugins.cameraRoll.count(includePhotos, includeVideos, showImageCount, cameraRollError);
 
   function showImageCount(count) {
     alert("Found " + count + " photos");
@@ -120,8 +119,8 @@ Counting the number of photos in the photo library:
 Find and show max 10 photos from the photo library:
 
 ```javascript
-  var maxAssets = 10;
-  window.plugins.cameraRoll.find(maxAssets, cameraRollFindResult, cameraRollError);
+  var maxPhotos = 10;
+  window.plugins.cameraRoll.find(maxPhotos, cameraRollFindResult, cameraRollError);
 
   function cameraRollFindResult(photos) {
     var content = '';
@@ -129,7 +128,8 @@ Find and show max 10 photos from the photo library:
       content += '<br/><img src="data:image/png;base64,'+photos[i]+'" style="max-width:240px"/>';
     }
     document.getElementById("imgContainer").innerHTML = content;
-}```
+}
+```
 
 
 ## 4. License

@@ -1,39 +1,27 @@
 "use strict";
-function CameraRoll() {}
+function SSLCertificateChecker() {}
 
-CameraRoll.prototype.count = function (includePhotos, includeVideos, successCallback, errorCallback) {
+// TODO pass in array of fingerPrints
+SSLCertificateChecker.prototype.check = function (serverURL, _fingerprint, successCallback, errorCallback) {
     if (typeof errorCallback != "function") {
-        console.log("CameraRoll.count failure: errorCallback parameter must be a function");
+        console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
         return
     }
     
     if (typeof successCallback != "function") {
-        console.log("CameraRoll.count failure: successCallback parameter must be a function");
+        console.log("SSLCertificateChecker.find failure: successCallback parameter must be a function");
         return
     }
-    cordova.exec(successCallback, errorCallback, "CameraRoll", "count", [includePhotos, includeVideos]);
+    cordova.exec(successCallback, errorCallback, "SSLCertificateChecker", "check", [serverURL, _fingerprint]);
 };
 
-CameraRoll.prototype.find = function (max, successCallback, errorCallback) {
-    if (typeof errorCallback != "function") {
-        console.log("CameraRoll.find failure: errorCallback parameter must be a function");
-        return
-    }
-
-    if (typeof successCallback != "function") {
-        console.log("CameraRoll.find failure: successCallback parameter must be a function");
-        return
-    }
-    cordova.exec(successCallback, errorCallback, "CameraRoll", "find", [max]);
-};
-
-CameraRoll.install = function () {
+SSLCertificateChecker.install = function () {
     if (!window.plugins) {
         window.plugins = {};
     }
     
-    window.plugins.cameraRoll = new CameraRoll();
+    window.plugins.sslCertificateChecker = new SSLCertificateChecker();
     return window.plugins.cameraRoll;
 };
 
-cordova.addConstructor(CameraRoll.install);
+cordova.addConstructor(SSLCertificateChecker.install);

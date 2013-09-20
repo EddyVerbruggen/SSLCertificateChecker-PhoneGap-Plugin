@@ -9,7 +9,9 @@ import org.json.JSONException;
 
 import java.util.Date;
 
-public class CameraRoll extends CordovaPlugin {
+// TODO
+
+public class SSLCertificateChecker extends CordovaPlugin {
 	public static final String ACTION_CREATE_EVENT = "createEvent";
 	public static final String ACTION_DELETE_EVENT = "deleteEvent";
 	public static final String ACTION_FIND_EVENT   = "findEvent";
