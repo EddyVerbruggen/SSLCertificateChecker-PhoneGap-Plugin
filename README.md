@@ -8,8 +8,8 @@ by [Eddy Verbruggen](http://www.x-services.nl)
 	2. [Manually](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#manually)
 	2. [PhoneGap Build](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#phonegap-build)
 3. [Usage](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#3-usage)
-4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-Credits)
-5. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-License)
+4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-credits)
+5. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-license)
 
 ## 1. Description
 
@@ -18,7 +18,7 @@ When correctly used, it will be very hard for hackers to intercept communication
 because you can actively verify the SSL certificate of the server by comparing actual and expected fingerprints.
 
 You may want to check the connection when the app is started, but you can choose to invoke this plugin
-everytime you want to communicate with the server. In either cases, you can add your logic to the success and error callbacks.
+everytime you communicate with the server. In either case, you can add your logic to the success and error callbacks.
 
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and ready for PhoneGap 3.0
 * Submitted and waiting for approval at PhoneGap Build ([more information](https://build.phonegap.com/plugins))
@@ -38,6 +38,11 @@ $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-Pho
 don't forget to run this command afterwards:
 ```
 $ cordova build
+```
+
+Add this reference to your `index.html`:
+```html
+<script type="text/javascript" src="js/plugins/SSLCertificateChecker.js"></script>
 ```
 
 ### Manually
@@ -99,19 +104,22 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 'Certificate details', expand the details and scroll down to the SHA1 fingerprint.
 
 ```javascript
-  var fingerprint = "60 FB 5E 46 C2 AB E9 BF 2B EA D1 B9 BB C6 4B DF 63 0A 44 3E";
+  var server = "https://build.phonegap.com";
+  var fingerprint = "8F A5 FC 33 20 2D 45 B4 EC 95 87 F0 50 F0 18 14 DF 98 50 64"; // valid until sep 2014
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
           errorCallback,
-          "https://theserver.youwantto.trust",
+          server,
           fingerprint);
 
    function successCallback(message) {
+     alert(message);
      // message is always: CONNECTION_SECURE, now do something with the trusted server
    }
 
    function errorCallback(message) {
+     alert(message);
      if (message == "CONNECTION_NOT_SECURE") {
        // There is likely a man in the middle attack going on, be careful!
      } else if (message == "CONNECTION_FAILED") {
@@ -123,12 +131,12 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 Need more than one fingerprint? In case your certificate is about to expire, you can add it already to your app, while still supporting the old certificate.
 Note you may want to force clients to update the app when the new certificate is activated, so you are sure the app still works in case you require a secure connection.
 ```javascript
-  var fingerprintNew = "82 CB 5E 46 C2 AB E9 BF 1D EA D1 B9 BB C6 4B DF 25 2A 34 3F";
+  var fingerprintNew = "82 CB 5E 46 C2 AB E9 BF 1D EA D1 B9 BB C6 4B DF 25 2A 34 3F"; // new cert (not real by the way)
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
           errorCallback,
-          "https://theserver.youwantto.trust",
+          server,
           fingerprint,
           fingerprintNew);
 ```

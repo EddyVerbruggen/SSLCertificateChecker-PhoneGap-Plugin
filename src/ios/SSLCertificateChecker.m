@@ -16,12 +16,7 @@
     _allowedFingerprint    = [arguments objectAtIndex:1];
     _allowedFingerprintAlt = [arguments objectAtIndex:2];
 
-    // create url
-    NSURL* endpointURL = [NSURL URLWithString:serverURL];
-    NSLog(@"SSLCertificateChecker checks url %@", endpointURL);
-    
-    // connect
-    NSURLRequest *request = [NSURLRequest requestWithURL:endpointURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
 
     if (![NSURLConnection connectionWithRequest:request delegate:self]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
