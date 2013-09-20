@@ -115,7 +115,8 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 
    function successCallback(message) {
      alert(message);
-     // message is always: CONNECTION_SECURE, now do something with the trusted server
+     // Message is always: CONNECTION_SECURE.
+     // Now do something with the trusted server.
    }
 
    function errorCallback(message) {
@@ -129,9 +130,9 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 ```
 
 Need more than one fingerprint? In case your certificate is about to expire, you can add it already to your app, while still supporting the old certificate.
-Note you may want to force clients to update the app when the new certificate is activated, so you are sure the app still works in case you require a secure connection.
+Note you may want to force clients to update the app when the new certificate is activated.
 ```javascript
-  var fingerprintNew = "82 CB 5E 46 C2 AB E9 BF 1D EA D1 B9 BB C6 4B DF 25 2A 34 3F"; // new cert (not real by the way)
+  var fingerprintNew = "82 CB 5E 46 C2 AB E9 BF 1D EA D1 B9 BB C6 4B DF 25 2A 34 3F";
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
@@ -143,7 +144,7 @@ Note you may want to force clients to update the app when the new certificate is
 
 
 ## 4. Credits
-The iOS code was inspired by a closed-source, purely native certificate pinning implementation created by Rob Bosman.
+The iOS code was inspired by a closed-source, purely native certificate pinning implementation by Rob Bosman.
 
 
 ## 5. License
