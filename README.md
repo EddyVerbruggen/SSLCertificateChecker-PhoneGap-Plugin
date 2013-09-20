@@ -1,0 +1,2 @@
+SSLCertificateChecker-PhoneGap-Plugin
+=====================================
