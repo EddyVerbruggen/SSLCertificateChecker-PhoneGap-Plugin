@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+      	xmlns:android="http://schemas.android.com/apk/res/android"
+        id="nl.x-services.plugins.sslcertificatechecker"
+        version="0.1">
+
+  <name>SSL Certificate Checker</name>
+
+  <description>
+    This plugin allows allows you to check the SSL Certificate of the server you're connecting to.
+    This can be useful for prevention of Man In The Middle attacks.
+  </description>
+
+  <license>MIT</license>
+
+  <engines>
+    <engine name="cordova" version=">=2.3.0"/>
+  </engines>
+
+  <asset src="www/SSLCertificateChecker.js" target="js/plugins/SSLCertificateChecker.js"/>
+
+  <!-- ios -->
+ 	<platform name="ios">
+ 		<config-file target="config.xml" parent="/*">
+ 			<feature name="SSLCertificateChecker">
+ 				<param name="ios-package" value="SSLCertificateChecker" />
+ 			</feature>
+ 		</config-file>
+ 		<header-file src="src/ios/SSLCertificateChecker.h" />
+ 		<source-file src="src/ios/SSLCertificateChecker.m" />
+ 		<source-file src="src/ios/CertificatePinner.h" />
+ 		<source-file src="src/ios/CertificatePinner.m" />
+		<!--<framework src="EventKit.framework" />-->
+ 	</platform>
+
+  <!-- android -->
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="plugins">
+      <plugin name="SSLCertificateChecker" value="nl.xservices.plugins.SSLCertificateChecker"/>
+    </config-file>
+    <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/android/nl/xservices/plugins"/>
+  </platform>
+
+</plugin>
