@@ -1,8 +1,7 @@
 "use strict";
 function SSLCertificateChecker() {}
 
-// TODO pass in array of fingerPrints
-SSLCertificateChecker.prototype.check = function (serverURL, _fingerprint, successCallback, errorCallback) {
+SSLCertificateChecker.prototype.check = function (successCallback, errorCallback, serverURL, allowedFingerprint, allowedFingerprintAlt) {
     if (typeof errorCallback != "function") {
         console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
         return
@@ -12,7 +11,7 @@ SSLCertificateChecker.prototype.check = function (serverURL, _fingerprint, succe
         console.log("SSLCertificateChecker.find failure: successCallback parameter must be a function");
         return
     }
-    cordova.exec(successCallback, errorCallback, "SSLCertificateChecker", "check", [serverURL, _fingerprint]);
+    cordova.exec(successCallback, errorCallback, "SSLCertificateChecker", "check", [serverURL, allowedFingerprint, allowedFingerprintAlt]);
 };
 
 SSLCertificateChecker.install = function () {

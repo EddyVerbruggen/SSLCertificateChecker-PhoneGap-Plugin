@@ -5,27 +5,17 @@
 
 @implementation SSLCertificateChecker {
     NSString* _callbackId;
-    NSString* _fingerprint;
+    id _allowedFingerprint;
+    id _allowedFingerprintAlt;
 }
-
-// TODO these will be passed in via JS call
-NSString* TRUSTED_FINGERPRINTS[] = {
-    // fingerprint of server certificate of 'mobiel-bankieren.triodos.nl', valid through 2015:
-    @"C8 75 04 E1 C2 B7 A5 CD 86 25 8A B1 91 21 3F 6F 77 F1 2C A1",
-    // fingerprint of server certificate of 'orange.triodos.nl', valid through 2014:
-    @"60 FB 5E 46 C0 AB E9 BF 2F EA D1 B9 BB C6 4B DF 63 0A 44 3E"
-};
-
-int NUM_TRUSTED_FINGERPRINTS = sizeof(TRUSTED_FINGERPRINTS) / sizeof(NSString*);
 
 -(void)check:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
 
     _callbackId = [arguments pop];
     
     NSString *serverURL = [arguments objectAtIndex:0];
-    // TODO fprint array
-    _fingerprint = [arguments objectAtIndex:1];
-
+    _allowedFingerprint = [arguments objectAtIndex:1];
+    _allowedFingerprintAlt = [arguments objectAtIndex:2];
 
     // create url
     NSURL* endpointURL = [NSURL URLWithString:serverURL];
@@ -75,21 +65,8 @@ int NUM_TRUSTED_FINGERPRINTS = sizeof(TRUSTED_FINGERPRINTS) / sizeof(NSString*);
 }
 
 - (BOOL) isFingerprintTrusted: (NSString*)fingerprint {
-//    for (int i = 0; i < NUM_TRUSTED_FINGERPRINTS; i++) {
-        if ([fingerprint caseInsensitiveCompare: _fingerprint] == NSOrderedSame) {
-            return TRUE;
-        }
-//    }
-    return FALSE;
-}
-
-- (BOOL) isFingerprintTrusted_OLD: (NSString*)fingerprint {
-    for (int i = 0; i < NUM_TRUSTED_FINGERPRINTS; i++) {
-        if ([fingerprint caseInsensitiveCompare: TRUSTED_FINGERPRINTS[i]] == NSOrderedSame) {
-            return TRUE;
-        }
-    }
-    return FALSE;
+        return ((_allowedFingerprint    != [NSNull null] && [fingerprint caseInsensitiveCompare: _allowedFingerprint]    == NSOrderedSame) ||
+                (_allowedFingerprintAlt != [NSNull null] && [fingerprint caseInsensitiveCompare: _allowedFingerprintAlt] == NSOrderedSame));
 }
 
 @end
