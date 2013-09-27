@@ -36,7 +36,7 @@
     <config-file target="res/xml/config.xml" parent="plugins">
       <plugin name="SSLCertificateChecker" value="nl.xservices.plugins.SSLCertificateChecker"/>
     </config-file>
-    <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/android/nl/xservices/plugins"/>
+    <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
   </platform>
 
 </plugin>
