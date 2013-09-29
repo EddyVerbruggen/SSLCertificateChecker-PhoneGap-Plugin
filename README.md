@@ -21,7 +21,7 @@ You may want to check the connection when the app is started, but you can choose
 everytime you communicate with the server. In either case, you can add your logic to the success and error callbacks.
 
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and ready for PhoneGap 3.0
-* Submitted and waiting for approval at PhoneGap Build ([more information](https://build.phonegap.com/plugins))
+* [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins/123)
 
 ## 2. Installation
 

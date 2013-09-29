@@ -3,24 +3,28 @@
 #import <Cordova/CDVPluginResult.h>
 #import <CommonCrypto/CommonDigest.h>
 
-@implementation SSLCertificateChecker {
-    NSString* _callbackId;
-    id _allowedFingerprint;
-    id _allowedFingerprintAlt;
-}
+@interface SSLCertificateChecker ()
+
+@property (strong, nonatomic) NSString *_allowedFingerprint;
+@property (strong, nonatomic) NSString *_allowedFingerprintAlt;
+@property (strong, nonatomic) NSString *_callbackId;
+
+@end
+
+@implementation SSLCertificateChecker
 
 -(void)check:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-    _callbackId = [arguments pop];
+    self._callbackId = [arguments pop];
 
     NSString *serverURL    = [arguments objectAtIndex:0];
-    _allowedFingerprint    = [arguments objectAtIndex:1];
-    _allowedFingerprintAlt = [arguments objectAtIndex:2];
+    self._allowedFingerprint    = [arguments objectAtIndex:1];
+    self._allowedFingerprintAlt = [arguments objectAtIndex:2];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
 
     if (![NSURLConnection connectionWithRequest:request delegate:self]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:_callbackId]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
 }
 
@@ -29,10 +33,10 @@
     NSString* fingerprint = [self getFingerprint: SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, 0)];
     if ([self isFingerprintTrusted: fingerprint]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:_callbackId]];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
     } else {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_NOT_SECURE"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:_callbackId]];
+        [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
 }
 
@@ -48,8 +52,8 @@
 }
 
 - (BOOL) isFingerprintTrusted: (NSString*)fingerprint {
-    return ((_allowedFingerprint    != [NSNull null] && [fingerprint caseInsensitiveCompare: _allowedFingerprint]    == NSOrderedSame) ||
-            (_allowedFingerprintAlt != [NSNull null] && [fingerprint caseInsensitiveCompare: _allowedFingerprintAlt] == NSOrderedSame));
+    return ((self._allowedFingerprint    != [NSNull null] && [fingerprint caseInsensitiveCompare: self._allowedFingerprint]    == NSOrderedSame) ||
+            (self._allowedFingerprintAlt != [NSNull null] && [fingerprint caseInsensitiveCompare: self._allowedFingerprintAlt] == NSOrderedSame));
 }
 
 @end
