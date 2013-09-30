@@ -40,7 +40,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
         return false;
       }
     } catch (Exception e) {
-      callbackContext.error("CONNECTION_FAILED");
+      callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
       return false;
     }
   }
