@@ -82,8 +82,8 @@ Android:
 - Copy `SSLCertificateChecker.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
 
 iOS:
-- Add a dependency to Security.framework: Go to Your project > Build Phases > Link binaries with libraries > + Security.framework.
-- Copy `SSLCertificateChecker.h` and `SSLCertificateChecker.m` to `platforms/ios/<ProjectName>/Plugins`.
+- Add a dependency to `Security.framework`: Go to Your project > Build Phases > Link binaries with libraries > Click `+` > Security.framework.
+- Copy `SSLCertificateChecker.*` to `platforms/ios/<ProjectName>/Plugins`.
 
 
 ### PhoneGap Build
