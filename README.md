@@ -78,11 +78,13 @@ Add this reference to your `index.html`:
 
 3\. Download the source files for iOS and/or Android and copy them to your project.
 
-a\. iOS: Copy `SSLCertificateChecker.h` and `SSLCertificateChecker.m` to `platforms/ios/<ProjectName>/Plugins`
-b\. Also, add a dependency to Security.framework: Go to Your project > Build Phases > Link binaries with libraries > + Security.framework
+Android:
+- Copy `SSLCertificateChecker.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
 
+iOS:
+- Add a dependency to Security.framework: Go to Your project > Build Phases > Link binaries with libraries > + Security.framework.
+- Copy `SSLCertificateChecker.h` and `SSLCertificateChecker.m` to `platforms/ios/<ProjectName>/Plugins`.
 
-Android: Copy `SSLCertificateChecker.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
 
 ### PhoneGap Build
 
