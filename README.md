@@ -3,9 +3,6 @@
 by [Eddy Verbruggen](http://www.x-services.nl)
 
 
-WARN: use version 1.0.1 or higher on iOS, or your app will crash (currently pending review at PhoneGap Build).
-
-
 1. [Description](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#2-installation)
 	2. [Automatically (CLI / Plugman)](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#automatically-cli--plugman)
