@@ -14,7 +14,7 @@
   <license>MIT</license>
 
   <engines>
-    <engine name="cordova" version=">=2.3.0"/>
+    <engine name="cordova" version=">=2.5.0"/>
   </engines>
 
   <asset src="www/SSLCertificateChecker.js" target="js/plugins/SSLCertificateChecker.js"/>
