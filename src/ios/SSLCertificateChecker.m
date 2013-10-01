@@ -40,6 +40,14 @@
     }
 }
 
+// Delegate method, called from connectionWithRequest
+- (void) connection: (NSURLConnection*)connection didFailWithError: (NSError*)error {
+    NSString *resultCode = @"CONNECTION_FAILED. Details:";
+    NSString *errStr = [NSString stringWithFormat:@"%@ %@", resultCode, [error localizedDescription]];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:errStr];
+    [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
+}
+
 - (NSString*) getFingerprint: (SecCertificateRef) cert {
     NSData* certData = (__bridge NSData*) SecCertificateCopyData(cert);
     unsigned char sha1Bytes[CC_SHA1_DIGEST_LENGTH];
