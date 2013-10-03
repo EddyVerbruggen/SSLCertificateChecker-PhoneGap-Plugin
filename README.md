@@ -57,12 +57,7 @@ Add this reference to your `index.html`:
 ```
 
 ```xml
-<!-- for Android as plugin (deprecated) -->
-<plugin name="SSLCertificateChecker" value="nl.xservices.plugins.SSLCertificateChecker"/>
-```
-
-```xml
-<!-- for Android as feature -->
+<!-- for Android -->
 <feature name="SSLCertificateChecker">
   <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
 </feature>
@@ -93,7 +88,7 @@ Using SSLCertificateChecker with PhoneGap Build requires these simple steps:
 ```
 or to use this exact version:
 ```xml
-<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" version="1.0.1" />
+<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" version="3.0" />
 ```
 
 2\. Reference the JavaScript code in your `index.html`:
