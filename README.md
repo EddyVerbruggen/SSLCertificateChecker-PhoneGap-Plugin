@@ -1,6 +1,7 @@
 # PhoneGap SSL Certificate Checker plugin (iOS and Android)
 
 by [Eddy Verbruggen](http://www.x-services.nl)
+for PhoneGap 3.0.0 and up.
 
 
 1. [Description](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#1-description)
@@ -21,7 +22,8 @@ because you can actively verify the SSL certificate of the server by comparing a
 You may want to check the connection when the app is started, but you can choose to invoke this plugin
 everytime you communicate with the server. In either case, you can add your logic to the success and error callbacks.
 
-* This version is for PhoneGap 3.0 and up, PhoneGap 2.9 and lower is available in the [pre-phonegap-3 tree](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/tree/pre-phonegap-3).
+* This version is for PhoneGap 3.0 and higher.
+* PhoneGap 2.9 and lower is available in the [pre-phonegap-3 tree](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/tree/pre-phonegap-3).
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
 * [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins/123).
 
@@ -37,10 +39,7 @@ or
 ```
 $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin.git
 ```
-Run `cordova prepare` or `cordova build` afterwards:
-```
-$ cordova build
-```
+Run `cordova prepare` or `cordova build` afterwards.
 
 Add this reference to your `index.html`:
 ```html
