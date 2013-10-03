@@ -21,13 +21,14 @@ because you can actively verify the SSL certificate of the server by comparing a
 You may want to check the connection when the app is started, but you can choose to invoke this plugin
 everytime you communicate with the server. In either case, you can add your logic to the success and error callbacks.
 
-* Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and ready for PhoneGap 3.0
-* [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins/123)
+* This version is for PhoneGap 3.0 and up, PhoneGap 2.9 and lower is available in the [pre-phonegap-3 tree](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/tree/pre-phonegap-3).
+* Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
+* [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins/123).
 
 ## 2. Installation
 
 ### Automatically (CLI / Plugman)
-SSLCertificateChecker is compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and ready for the [PhoneGap 3.0 CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features), here's how it works with the CLI:
+SSLCertificateChecker is compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and compatible with [PhoneGap 3.0 CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features), here's how it works with the CLI:
 
 ```
 $ phonegap local plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin.git
@@ -36,7 +37,7 @@ or
 ```
 $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin.git
 ```
-don't forget to run this command afterwards:
+Run `cordova prepare` or `cordova build` afterwards:
 ```
 $ cordova build
 ```

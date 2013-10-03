@@ -3,6 +3,6 @@
 
 @interface SSLCertificateChecker : CDVPlugin
 
-- (void)check:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)check:(CDVInvokedUrlCommand*)command;
 
 @end

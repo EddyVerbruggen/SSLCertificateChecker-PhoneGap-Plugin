@@ -2,19 +2,20 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
       	xmlns:android="http://schemas.android.com/apk/res/android"
         id="nl.x-services.plugins.sslcertificatechecker"
-        version="1.0.2">
+        version="1.0.3">
 
   <name>SSL Certificate Checker</name>
 
   <description>
     This plugin allows allows you to check the SSL Certificate of the server you're connecting to.
     This can be useful for prevention of Man In The Middle attacks.
+    This is the PhoneGap 3.0.0 version. Please use version 1.0.2 for PhoneGap 2.9.0 and lower.
   </description>
 
   <license>MIT</license>
 
   <engines>
-    <engine name="cordova" version=">=2.5.0"/>
+    <engine name="cordova" version=">=3.0.0"/>
   </engines>
 
   <asset src="www/SSLCertificateChecker.js" target="js/plugins/SSLCertificateChecker.js"/>
@@ -33,8 +34,10 @@
 
   <!-- android -->
   <platform name="android">
-    <config-file target="res/xml/config.xml" parent="plugins">
-      <plugin name="SSLCertificateChecker" value="nl.xservices.plugins.SSLCertificateChecker"/>
+    <config-file target="res/xml/config.xml" parent="widget">
+      <feature name="SSLCertificateChecker">
+        <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
+      </feature>
     </config-file>
     <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
   </platform>
