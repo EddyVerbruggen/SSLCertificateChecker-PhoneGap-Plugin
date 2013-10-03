@@ -13,9 +13,8 @@
 
 @implementation SSLCertificateChecker
 
-//-(void)check:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
 - (void)check:(CDVInvokedUrlCommand*)command {
-    self._callbackId = [command.callbackId];
+    self._callbackId = command.callbackId;
 
     NSString *serverURL    = [command.arguments objectAtIndex:0];
     self._allowedFingerprint    = [command.arguments objectAtIndex:1];
