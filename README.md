@@ -25,7 +25,7 @@ everytime you communicate with the server. In either case, you can add your logi
 * This version is for PhoneGap 3.0 and higher.
 * PhoneGap 2.9 and lower is available in the [pre-phonegap-3 tree](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/tree/pre-phonegap-3).
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
-* [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins/123).
+* [Officially supported by PhoneGap Build](https://build.phonegap.com/plugins).
 
 ## 2. Installation
 

@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
       	xmlns:android="http://schemas.android.com/apk/res/android"
         id="nl.x-services.plugins.sslcertificatechecker"
-        version="3.0">
+        version="3.1">
 
   <name>SSL Certificate Checker</name>
 
@@ -34,7 +34,7 @@
 
   <!-- android -->
   <platform name="android">
-    <config-file target="res/xml/config.xml" parent="widget">
+    <config-file target="res/xml/config.xml" parent="/*">
       <feature name="SSLCertificateChecker">
         <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
       </feature>
