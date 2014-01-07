@@ -18,7 +18,9 @@
     <engine name="cordova" version=">=3.0.0"/>
   </engines>
 
-  <asset src="www/SSLCertificateChecker.js" target="js/plugins/SSLCertificateChecker.js"/>
+  <js-module name="SSLCertificateChecker" src="www/SSLCertificateChecker.js">
+    <clobbers target="window.plugins.sslCertificateChecker" />
+  </js-module>
 
   <!-- ios -->
  	<platform name="ios">

@@ -41,11 +41,6 @@ $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-Pho
 ```
 Run `cordova prepare` or `cordova build` afterwards.
 
-Add this reference to your `index.html`:
-```html
-<script type="text/javascript" src="js/plugins/SSLCertificateChecker.js"></script>
-```
-
 ### Manually
 
 1\. Add the following xml to your `config.xml`:
@@ -89,12 +84,6 @@ Using SSLCertificateChecker with PhoneGap Build requires these simple steps:
 or to use this exact version:
 ```xml
 <gap:plugin name="nl.x-services.plugins.sslcertificatechecker" version="3.0" />
-```
-
-2\. Reference the JavaScript code in your `index.html`:
-```html
-<!-- below <script src="phonegap.js"></script> -->
-<script src="js/plugins/SSLCertificateChecker.js"></script>
 ```
 
 ## 3. Usage
