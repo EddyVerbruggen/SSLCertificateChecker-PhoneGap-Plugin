@@ -1,4 +1,6 @@
 "use strict";
+var exec = require('cordova/exec');
+
 function SSLCertificateChecker() {
 }
 
@@ -15,13 +17,5 @@ SSLCertificateChecker.prototype.check = function (successCallback, errorCallback
   cordova.exec(successCallback, errorCallback, "SSLCertificateChecker", "check", [serverURL, allowedSHA1Fingerprint, allowedSHA1FingerprintAlt]);
 };
 
-SSLCertificateChecker.install = function () {
-  if (!window.plugins) {
-    window.plugins = {};
-  }
-
-  window.plugins.sslCertificateChecker = new SSLCertificateChecker();
-  return window.plugins.sslCertificateChecker;
-};
-
-cordova.addConstructor(SSLCertificateChecker.install);
+var sslCertificateChecker = new SSLCertificateChecker();
+module.exports = sslCertificateChecker;
