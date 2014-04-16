@@ -3,40 +3,43 @@
 #import <Cordova/CDVPluginResult.h>
 #import <CommonCrypto/CommonDigest.h>
 
-@interface SSLCertificateChecker ()
 
+@interface CustomURLConnectionDelegate : NSObject <NSURLConnectionDelegate>;
+
+@property (strong, nonatomic) CDVPlugin *_plugin;
+@property (strong, nonatomic) NSString *_callbackId;
 @property (strong, nonatomic) NSString *_allowedFingerprint;
 @property (strong, nonatomic) NSString *_allowedFingerprintAlt;
-@property (strong, nonatomic) NSString *_callbackId;
+@property (nonatomic, assign) BOOL sentResponse;
+
+- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId allowedFingerprint:(NSString*)allowedFingerprint allowedFingerprintAlt:(NSString*)allowedFingerprintAlt;
 
 @end
 
-@implementation SSLCertificateChecker
+@implementation CustomURLConnectionDelegate
 
-- (void)check:(CDVInvokedUrlCommand*)command {
-    self._callbackId = command.callbackId;
-
-    NSString *serverURL    = [command.arguments objectAtIndex:0];
-    self._allowedFingerprint    = [command.arguments objectAtIndex:1];
-    self._allowedFingerprintAlt = [command.arguments objectAtIndex:2];
-
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
-
-    if (![NSURLConnection connectionWithRequest:request delegate:self]) {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
-    }
+- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId allowedFingerprint:(NSString*)allowedFingerprint allowedFingerprintAlt:(NSString*)allowedFingerprintAlt
+{
+	self.sentResponse = FALSE;
+	self._plugin = plugin;
+	self._callbackId = callbackId;
+	self._allowedFingerprint = allowedFingerprint;
+	self._allowedFingerprintAlt = allowedFingerprintAlt;
+    return self;
 }
 
 // Delegate method, called from connectionWithRequest
 - (void) connection: (NSURLConnection*)connection willSendRequestForAuthenticationChallenge: (NSURLAuthenticationChallenge*)challenge {
     NSString* fingerprint = [self getFingerprint: SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, 0)];
+	self.sentResponse = TRUE;
     if ([self isFingerprintTrusted: fingerprint]) {
+		[[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
+        [self._plugin writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
     } else {
+		[[challenge sender] cancelAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_NOT_SECURE"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
+        [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
 }
 
@@ -45,7 +48,15 @@
     NSString *resultCode = @"CONNECTION_FAILED. Details:";
     NSString *errStr = [NSString stringWithFormat:@"%@ %@", resultCode, [error localizedDescription]];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:errStr];
-    [self writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
+    [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    if (![self sentResponse]) {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_SECURITY_UNKNOWN"];
+        [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
+    }
 }
 
 - (NSString*) getFingerprint: (SecCertificateRef) cert {
@@ -60,8 +71,32 @@
 }
 
 - (BOOL) isFingerprintTrusted: (NSString*)fingerprint {
-    return ((self._allowedFingerprint    != [NSNull null] && [fingerprint caseInsensitiveCompare: self._allowedFingerprint]    == NSOrderedSame) ||
-            (self._allowedFingerprintAlt != [NSNull null] && [fingerprint caseInsensitiveCompare: self._allowedFingerprintAlt] == NSOrderedSame));
+    return ((![[NSNull null] isEqual:self._allowedFingerprint] && [fingerprint caseInsensitiveCompare: self._allowedFingerprint]    == NSOrderedSame) ||
+            (![[NSNull null] isEqual:self._allowedFingerprintAlt] && [fingerprint caseInsensitiveCompare: self._allowedFingerprintAlt] == NSOrderedSame));
+}
+
+@end
+
+
+@interface SSLCertificateChecker ()
+
+@property (strong, nonatomic) NSString *_callbackId;
+@property (strong, nonatomic) NSMutableData *_connections;
+
+@end
+
+@implementation SSLCertificateChecker
+
+- (void)check:(CDVInvokedUrlCommand*)command {
+    NSString *serverURL    = [command.arguments objectAtIndex:0];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
+	CustomURLConnectionDelegate *delegate =
+		[[CustomURLConnectionDelegate alloc] initWithPlugin:self callbackId:command.callbackId allowedFingerprint:[command.arguments objectAtIndex:1] allowedFingerprintAlt:[command.arguments objectAtIndex:2]];
+
+	if (![NSURLConnection connectionWithRequest:request delegate:delegate]) {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
+        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+    }
 }
 
 @end
