@@ -33,11 +33,11 @@
 
     self.sentResponse = TRUE;
     if ([self isFingerprintTrusted: fingerprint]) {
-		[[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
+//		[[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
         [self._plugin writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
     } else {
-		[[challenge sender] cancelAuthenticationChallenge:challenge];
+//		[[challenge sender] cancelAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_NOT_SECURE"];
         [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
@@ -91,14 +91,14 @@
 - (void)check:(CDVInvokedUrlCommand*)command {
     NSString *serverURL = [command.arguments objectAtIndex:0];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
-
-	CustomURLConnectionDelegate *delegate =
-    [[CustomURLConnectionDelegate alloc] initWithPlugin:self callbackId:command.callbackId allowedFingerprint:[command.arguments objectAtIndex:1] allowedFingerprintAlt:[command.arguments objectAtIndex:2]];
-    
-	if (![NSURLConnection connectionWithRequest:request delegate:delegate]) {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
-    }
-}
-
-@end
+                             
+                             CustomURLConnectionDelegate *delegate =
+                             [[CustomURLConnectionDelegate alloc] initWithPlugin:self callbackId:command.callbackId allowedFingerprint:[command.arguments objectAtIndex:1] allowedFingerprintAlt:[command.arguments objectAtIndex:2]];
+                             
+                             if (![NSURLConnection connectionWithRequest:request delegate:delegate]) {
+                                 CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
+                                 [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+                             }
+                             }
+                             
+                             @end
