@@ -94,7 +94,7 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 
 ```javascript
   var server = "https://build.phonegap.com";
-  var fingerprint = "8F A5 FC 33 20 2D 45 B4 EC 95 87 F0 50 F0 18 14 DF 98 50 64"; // valid until sep 2014
+  var fingerprint = "29 96 0F D5 FE 78 AA EF F4 36 CC 51 79 E4 8C 3C C7 B0 B7 8E"; // valid until sep 2014
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
@@ -135,6 +135,7 @@ Note you may want to force clients to update the app when the new certificate is
 ## 4. Credits
 The iOS code was inspired by a closed-source, purely native certificate pinning implementation by Rob Bosman.
 
+[Jacob Weber](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/issues/9) did some great work to support checking multiple certificates on iOS, thanks!
 
 ## 5. License
 

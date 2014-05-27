@@ -20,32 +20,34 @@ public class SSLCertificateChecker extends CordovaPlugin {
   private static char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
   @Override
-  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    try {
-      if (ACTION_CHECK_EVENT.equals(action)) {
-        final String serverURL = args.getString(0);
-        final String allowedFingerprint = args.getString(1);
-        final String allowedFingerprintAlt = args.getString(2);
+  public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    if (ACTION_CHECK_EVENT.equals(action)) {
+      cordova.getThreadPool().execute(new Runnable() {
+        public void run() {
+          try {
+            final String serverURL = args.getString(0);
+            final String allowedFingerprint = args.getString(1);
+            final String allowedFingerprintAlt = args.getString(2);
+            final String serverCertFingerprint = getFingerprint(serverURL);
 
-        final String serverCertFingerprint = getFingerprint(serverURL);
-
-        if (allowedFingerprint.equalsIgnoreCase(serverCertFingerprint) || allowedFingerprintAlt.equalsIgnoreCase(serverCertFingerprint)) {
-          callbackContext.success("CONNECTION_SECURE");
-        } else {
-          callbackContext.success("CONNECTION_NOT_SECURE");
+            if (allowedFingerprint.equalsIgnoreCase(serverCertFingerprint) || allowedFingerprintAlt.equalsIgnoreCase(serverCertFingerprint)) {
+              callbackContext.success("CONNECTION_SECURE");
+            } else {
+              callbackContext.success("CONNECTION_NOT_SECURE");
+            }
+          } catch (Exception e) {
+            callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
+          }
         }
-        return true;
-      } else {
-        callbackContext.error("sslCertificateChecker." + action + " is not a supported function. Did you mean '" + ACTION_CHECK_EVENT + "'?");
-        return false;
-      }
-    } catch (Exception e) {
-      callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
+      });
+      return true;
+    } else {
+      callbackContext.error("sslCertificateChecker." + action + " is not a supported function. Did you mean '" + ACTION_CHECK_EVENT + "'?");
       return false;
     }
   }
 
-  private String getFingerprint(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
+  private static String getFingerprint(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
     final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
     con.connect();
     final Certificate cert = con.getServerCertificates()[0];
