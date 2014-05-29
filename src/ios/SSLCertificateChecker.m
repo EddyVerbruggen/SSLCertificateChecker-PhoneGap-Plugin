@@ -33,11 +33,9 @@
 
     self.sentResponse = TRUE;
     if ([self isFingerprintTrusted: fingerprint]) {
-//		[[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
         [self._plugin writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
     } else {
-//		[[challenge sender] cancelAuthenticationChallenge:challenge];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_NOT_SECURE"];
         [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
