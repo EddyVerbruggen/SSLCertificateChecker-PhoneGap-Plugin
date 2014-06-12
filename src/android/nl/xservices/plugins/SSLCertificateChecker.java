@@ -33,7 +33,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
             if (allowedFingerprint.equalsIgnoreCase(serverCertFingerprint) || allowedFingerprintAlt.equalsIgnoreCase(serverCertFingerprint)) {
               callbackContext.success("CONNECTION_SECURE");
             } else {
-              callbackContext.success("CONNECTION_NOT_SECURE");
+              callbackContext.error("CONNECTION_NOT_SECURE");
             }
           } catch (Exception e) {
             callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
