@@ -13,6 +13,13 @@ for PhoneGap 3.0.0 and up.
 4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-credits)
 5. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-license)
 
+<table width="100%">
+    <tr>
+        <td width="100">Need true SSL Pinning?</td>
+        <td>If checking the certificate manually isn't sufficient for your needs and you want to be absolutely positive each and every HTTPS request is sent to your server, then take a look at the <a href="http://plugins.telerik.com/plugin/secure-http">Secure HTTP plugin</a>.</td>
+    </tr>
+</table>
+
 ## 1. Description
 
 This plugin can be used to add an extra layer of security by preventing 'Man in the Middle' attacks.
