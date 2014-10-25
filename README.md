@@ -15,7 +15,7 @@ for PhoneGap 3.0.0 and up.
 
 <table width="100%">
     <tr>
-        <td width="100">Need true SSL Pinning?</td>
+        <td width="100">Need SSL Pinning?</td>
         <td>If checking the certificate manually isn't sufficient for your needs and you want to be absolutely positive each and every HTTPS request is sent to your server, then take a look at the <a href="http://plugins.telerik.com/plugin/secure-http">Secure HTTP plugin</a>.</td>
     </tr>
 </table>
