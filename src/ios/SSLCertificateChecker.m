@@ -20,7 +20,6 @@
 
 - (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId checkInCertChain:(BOOL)checkInCertChain allowedFingerprint:(NSString*)allowedFingerprint allowedFingerprintAlt:(NSString*)allowedFingerprintAlt
 {
-    NSLog(@"initWithPlugin");
     self.sentResponse = FALSE;
     self._plugin = plugin;
     self._callbackId = callbackId;
@@ -32,7 +31,6 @@
 
 // Delegate method, called from connectionWithRequest
 - (void) connection: (NSURLConnection*)connection willSendRequestForAuthenticationChallenge: (NSURLAuthenticationChallenge*)challenge {
-    NSLog(@"willSendRequestForAuthenticationChallenge");
     SecTrustRef trustRef = [[challenge protectionSpace] serverTrust];
     SecTrustEvaluate(trustRef, NULL);
     
@@ -51,9 +49,6 @@
         
         NSString* fingerprint = [self getFingerprint:certRef];
         
-        NSLog(@"Certificate #%ld in chain: %@", i, certSummary);
-        NSLog(@"  fingerprint:%@", fingerprint);
-        
         if ([self isFingerprintTrusted: fingerprint]) {
             CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
             [self._plugin writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
@@ -67,24 +62,10 @@
         [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
     }
     
-    /*
-     NSString* fingerprint = [self getFingerprint: SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, 0)];
-     
-     self.sentResponse = TRUE;
-     if ([self isFingerprintTrusted: fingerprint]) {
-     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"CONNECTION_SECURE"];
-     [self._plugin writeJavascript:[pluginResult toSuccessCallbackString:self._callbackId]];
-     } else {
-     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_NOT_SECURE"];
-     [self._plugin writeJavascript:[pluginResult toErrorCallbackString:self._callbackId]];
-     }
-     */
 }
 
 // Delegate method, called from connectionWithRequest
 - (void) connection: (NSURLConnection*)connection didFailWithError: (NSError*)error {
-    NSLog(@"didFailWithError");
-    
     connection = nil;
     
     NSString *resultCode = @"CONNECTION_FAILED. Details:";
@@ -95,8 +76,6 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"connectionDidFinishLoading");
-    
     connection = nil;
     
     if (![self sentResponse]) {
@@ -135,7 +114,6 @@
 @implementation SSLCertificateChecker
 
 - (void)check:(CDVInvokedUrlCommand*)command {
-    NSLog(@"command");
     NSString *serverURL = [command.arguments objectAtIndex:0];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
     
@@ -143,9 +121,7 @@
     [[CustomURLConnectionDelegate alloc] initWithPlugin:self callbackId:command.callbackId checkInCertChain:[[command.arguments objectAtIndex:1] boolValue] allowedFingerprint:[command.arguments objectAtIndex:2] allowedFingerprintAlt:[command.arguments objectAtIndex:3]];
     
     if (![NSURLConnection connectionWithRequest:request delegate:delegate]) {
-        
-        NSLog(@"NSURLConnection failed");
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
+ns        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
         [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
     }
 }
