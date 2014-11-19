@@ -49,6 +49,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
 
   private static String getFingerprint(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
     final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
+    con.setConnectTimeout(5000);
     con.connect();
     final Certificate cert = con.getServerCertificates()[0];
     final MessageDigest md = MessageDigest.getInstance("SHA1");
