@@ -26,14 +26,22 @@ public class SSLCertificateChecker extends CordovaPlugin {
         public void run() {
           try {
             final String serverURL = args.getString(0);
-            final String allowedFingerprint = args.getString(1);
-            final String allowedFingerprintAlt = args.getString(2);
-            final String serverCertFingerprint = getFingerprint(serverURL);
-
-            if (allowedFingerprint.equalsIgnoreCase(serverCertFingerprint) || allowedFingerprintAlt.equalsIgnoreCase(serverCertFingerprint)) {
-              callbackContext.success("CONNECTION_SECURE");
-            } else {
-              callbackContext.error("CONNECTION_NOT_SECURE");
+            final Boolean checkInCertChain = args.getBoolean(1);
+            final String allowedFingerprint = args.getString(2);
+            final String allowedFingerprintAlt = args.getString(3);
+            String[] serverCertFingerprints = getFingerprints(serverURL);
+            
+            Boolean certFound = false;
+            int certChainCheckDepth = checkInCertChain ? serverCertFingerprints.length : 1;
+            for (int i=0; i<certChainCheckDepth; i++) {
+	            if (allowedFingerprint.equalsIgnoreCase(serverCertFingerprints[i]) || allowedFingerprintAlt.equalsIgnoreCase(serverCertFingerprints[i])) {
+	            	certFound = true;
+	            	callbackContext.success("CONNECTION_SECURE");
+	            	break;
+	            }
+            }
+            if (! certFound) {
+            	callbackContext.error("CONNECTION_NOT_SECURE");
             }
           } catch (Exception e) {
             callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
@@ -47,14 +55,18 @@ public class SSLCertificateChecker extends CordovaPlugin {
     }
   }
 
-  private static String getFingerprint(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
+  private static String[] getFingerprints(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
     final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
     con.setConnectTimeout(5000);
     con.connect();
-    final Certificate cert = con.getServerCertificates()[0];
+    final Certificate[] certs = con.getServerCertificates();
+    final String[] fingerprints = new String[certs.length];
     final MessageDigest md = MessageDigest.getInstance("SHA1");
-    md.update(cert.getEncoded());
-    return dumpHex(md.digest());
+    for (int i=0; i<certs.length; i++) {
+        md.update(certs[i].getEncoded());
+        fingerprints[i]=dumpHex(md.digest());
+    }
+    return fingerprints;
   }
 
   private static String dumpHex(byte[] data) {
