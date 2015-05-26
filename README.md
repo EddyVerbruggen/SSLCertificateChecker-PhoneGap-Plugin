@@ -119,7 +119,7 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
      alert(message);
      if (message == "CONNECTION_NOT_SECURE") {
        // There is likely a man in the middle attack going on, be careful!
-     } else if (message == "CONNECTION_FAILED") {
+     } else if (message.indexOf("CONNECTION_FAILED") >- 1) {
        // There was no connection (yet). Internet may be down. Try again (a few times) after a little timeout.
      }
    }

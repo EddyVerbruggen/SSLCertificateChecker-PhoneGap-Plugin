@@ -43,13 +43,11 @@
     <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
   </platform>
 
+  <!-- windows -->
   <platform name="windows">
-    <config-file target="config.xml" parent="/*">
-      <feature name="SSLCertificateChecker">
-        <param name="wp-package" value="SSLCertificateChecker"/>
-      </feature>
-    </config-file>
-    <source-file src="src/wp8/SSLCertificateChecker.cs" />
+    <js-module src="src/windows/sslCertCheckPluginProxy.js" name="SSLCertCheckProxy">
+      <merges target="" />
+    </js-module>
   </platform>
 
 </plugin>
