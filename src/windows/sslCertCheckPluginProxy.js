@@ -1,6 +1,6 @@
 cordova.commandProxy.add("SSLCertificateChecker", {
 
-  checkInCertChain: function(successCallback, errorCallback, serverURL, allowedSHA1Fingerprint, allowedSHA1FingerprintAlt) {
+  checkInCertChain: function(successCallback, errorCallback, params) {
     if (typeof errorCallback != "function") {
       console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
       return
@@ -9,7 +9,12 @@ cordova.commandProxy.add("SSLCertificateChecker", {
     errorCallback("Function not supported in the current Windows implementation of this plugin");
   },
 
-  check: function(successCallback, errorCallback, serverURL, allowedSHA1Fingerprint, allowedSHA1FingerprintAlt) {
+  check: function(successCallback, errorCallback, params) {
+    var serverURL = params[0];
+    // params[1] is irrelevant
+    var allowedSHA1Fingerprint = params[2];
+    var allowedSHA1FingerprintAlt = params[3];
+
     if (typeof errorCallback != "function") {
       console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
       return
@@ -20,7 +25,6 @@ cordova.commandProxy.add("SSLCertificateChecker", {
       return
     }
 
-    var that = this;
     var hostName;
     try {
       // we expect something like "build.phonegap.com", without the "https://"
@@ -34,11 +38,12 @@ cordova.commandProxy.add("SSLCertificateChecker", {
       return;
     }
 
-    socketsSample.closing = false;
-    socketsSample.clientSocket = new Windows.Networking.Sockets.StreamSocket();
+    var stateHolder = {};
+    stateHolder.closing = false;
+    stateHolder.clientSocket = new Windows.Networking.Sockets.StreamSocket();
 
     // Connect to the server
-    socketsSample.clientSocket.connectAsync(
+    stateHolder.clientSocket.connectAsync(
         hostName,
         443, // port
         Windows.Networking.Sockets.SocketProtectionLevel.ssl)
@@ -46,10 +51,10 @@ cordova.commandProxy.add("SSLCertificateChecker", {
           // No SSL errors: return an empty promise and continue processing in the .done function
           return
         }, function (reason) {
-          if (socketsSample.clientSocket.information.serverCertificateErrorSeverity ===
+          if (stateHolder.clientSocket.information.serverCertificateErrorSeverity ===
               Windows.Networking.Sockets.SocketSslErrorSeverity.ignorable) {
             return shouldIgnoreCertificateErrorsAsync(
-                socketsSample.clientSocket.information.serverCertificateErrors)
+                stateHolder.clientSocket.information.serverCertificateErrors)
                 .then(function (userAcceptedRetry) {
                   if (userAcceptedRetry) {
                     return connectSocketWithRetryHandleSslErrorAsync(hostName, serviceName);
@@ -62,11 +67,20 @@ cordova.commandProxy.add("SSLCertificateChecker", {
         })
         .done(function () {
           // Get detailed certificate information.
-          if (socketsSample.clientSocket.information.serverCertificate != null) {
-            var certFp = that.getCertificateThumbprint(socketsSample.clientSocket.information.serverCertificate);
+          if (stateHolder.clientSocket.information.serverCertificate != null) {
+            var certFp = "";
+            var fpHash = stateHolder.clientSocket.information.serverCertificate.getHashValue();
+            for (var i = 0; i < fpHash.length; i++) {
+              var block = fpHash[i].toString(16);
+              if (block.length == 1) {
+                certFp += "0";
+              }
+              certFp += block;
+            }
+            certFp = certFp.toUpperCase();
 
-            socketsSample.clientSocket.close();
-            socketsSample.clientSocket = null;
+            stateHolder.clientSocket.close();
+            stateHolder.clientSocket = null;
 
             var fpOK = allowedSHA1Fingerprint !== undefined && certFp == allowedSHA1Fingerprint.toUpperCase().split(' ').join('');
             var fpAltOK = allowedSHA1FingerprintAlt !== undefined && certFp == allowedSHA1FingerprintAlt.toUpperCase().split(' ').join('');
@@ -85,22 +99,9 @@ cordova.commandProxy.add("SSLCertificateChecker", {
             throw reason;
           }
 
-          socketsSample.clientSocket.close();
-          socketsSample.clientSocket = null;
+          stateHolder.clientSocket.close();
+          stateHolder.clientSocket = null;
           errorCallback("CONNECTION_FAILED. Details: " + reason);
         });
-  },
-
-  getCertificateThumbprint: function(serverCert) {
-    var hexed = "";
-    var fpHash = serverCert.getHashValue();
-    for (var i = 0; i < fpHash.length; i++) {
-      var block = fpHash[i].toString(16);
-      if (block.length == 1) {
-        hexed += "0";
-      }
-      hexed += block;
-    }
-    return hexed.toUpperCase();
   }
 });
