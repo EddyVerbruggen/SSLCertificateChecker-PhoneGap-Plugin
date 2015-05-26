@@ -43,8 +43,7 @@
     <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
   </platform>
 
-  <!-- wp8.. TODO or windows .. is 8.1+ compatible only -->
-  <platform name="wp8">
+  <platform name="windows">
     <config-file target="config.xml" parent="/*">
       <feature name="SSLCertificateChecker">
         <param name="wp-package" value="SSLCertificateChecker"/>
