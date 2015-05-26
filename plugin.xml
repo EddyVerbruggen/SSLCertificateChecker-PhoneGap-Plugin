@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
       	xmlns:android="http://schemas.android.com/apk/res/android"
         id="nl.x-services.plugins.sslcertificatechecker"
-        version="3.4.0">
+        version="3.5.0-dev">
 
   <name>SSL Certificate Checker</name>
 
@@ -41,6 +41,16 @@
       </feature>
     </config-file>
     <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
+  </platform>
+
+  <!-- wp8.. TODO or windows .. is 8.1+ compatible only -->
+  <platform name="wp8">
+    <config-file target="config.xml" parent="/*">
+      <feature name="SSLCertificateChecker">
+        <param name="wp-package" value="SSLCertificateChecker"/>
+      </feature>
+    </config-file>
+    <source-file src="src/wp8/SSLCertificateChecker.cs" />
   </platform>
 
 </plugin>
