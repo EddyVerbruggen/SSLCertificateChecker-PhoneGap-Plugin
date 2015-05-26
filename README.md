@@ -1,4 +1,4 @@
-# PhoneGap SSL Certificate Checker plugin (iOS and Android)
+# PhoneGap SSL Certificate Checker plugin (iOS, Android, Windows Universal)
 
 by [Eddy Verbruggen](http://www.x-services.nl)
 for PhoneGap 3.0.0 and up.
