@@ -8,24 +8,22 @@
 @property (strong, nonatomic) CDVPlugin *_plugin;
 @property (strong, nonatomic) NSString *_callbackId;
 @property (nonatomic, assign) BOOL _checkInCertChain;
-@property (strong, nonatomic) NSString *_allowedFingerprint;
-@property (strong, nonatomic) NSString *_allowedFingerprintAlt;
+@property (strong, nonatomic) NSArray *_allowedFingerprints;
 @property (nonatomic, assign) BOOL sentResponse;
 
-- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId checkInCertChain:(BOOL)checkInCertChain allowedFingerprint:(NSString*)allowedFingerprint allowedFingerprintAlt:(NSString*)allowedFingerprintAlt;
+- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId checkInCertChain:(BOOL)checkInCertChain allowedFingerprints:(NSArray*)allowedFingerprints;
 
 @end
 
 @implementation CustomURLConnectionDelegate
 
-- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId checkInCertChain:(BOOL)checkInCertChain allowedFingerprint:(NSString*)allowedFingerprint allowedFingerprintAlt:(NSString*)allowedFingerprintAlt
+- (id)initWithPlugin:(CDVPlugin*)plugin callbackId:(NSString*)callbackId checkInCertChain:(BOOL)checkInCertChain allowedFingerprints:(NSArray*)allowedFingerprints
 {
     self.sentResponse = FALSE;
     self._plugin = plugin;
     self._callbackId = callbackId;
     self._checkInCertChain = checkInCertChain;
-    self._allowedFingerprint = allowedFingerprint;
-    self._allowedFingerprintAlt = allowedFingerprintAlt;
+    self._allowedFingerprints = allowedFingerprints;
     return self;
 }
 
@@ -95,8 +93,12 @@
 }
 
 - (BOOL) isFingerprintTrusted: (NSString*)fingerprint {
-    return ((![[NSNull null] isEqual:self._allowedFingerprint] && [fingerprint caseInsensitiveCompare: self._allowedFingerprint]    == NSOrderedSame) ||
-            (![[NSNull null] isEqual:self._allowedFingerprintAlt] && [fingerprint caseInsensitiveCompare: self._allowedFingerprintAlt] == NSOrderedSame));
+  for (NSString *fp in self._allowedFingerprints) {
+    if ([fingerprint caseInsensitiveCompare: fp] == NSOrderedSame) {
+      return YES;
+    }
+  }
+  return NO;
 }
 
 @end
@@ -115,8 +117,10 @@
     NSString *serverURL = [command.arguments objectAtIndex:0];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:serverURL]];
     
-    CustomURLConnectionDelegate *delegate =
-    [[CustomURLConnectionDelegate alloc] initWithPlugin:self callbackId:command.callbackId checkInCertChain:[[command.arguments objectAtIndex:1] boolValue] allowedFingerprint:[command.arguments objectAtIndex:2] allowedFingerprintAlt:[command.arguments objectAtIndex:3]];
+    CustomURLConnectionDelegate *delegate = [[CustomURLConnectionDelegate alloc] initWithPlugin:self
+                                                                                     callbackId:command.callbackId
+                                                                               checkInCertChain:[[command.arguments objectAtIndex:1] boolValue]
+                                                                            allowedFingerprints:[command.arguments objectAtIndex:2]];
     
     if (![NSURLConnection connectionWithRequest:request delegate:delegate]) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:@"CONNECTION_FAILED"];
