@@ -26,10 +26,13 @@ cordova.commandProxy.add("SSLCertificateChecker", {
 
     var hostName;
     try {
-      // we expect something like "build.phonegap.com", without the "https://"
+      // we expect something like "build.phonegap.com", without the "https://" and path
       var strippedURL = serverURL;
       if (strippedURL.indexOf("://") > -1) {
         strippedURL = strippedURL.substring(strippedURL.indexOf("://") + 3);
+      }
+      if (strippedURL.indexOf("/") > -1) {
+        strippedURL = strippedURL.substring(0, strippedURL.indexOf("/"));
       }
       hostName = new Windows.Networking.HostName(strippedURL);
     } catch (error) {
