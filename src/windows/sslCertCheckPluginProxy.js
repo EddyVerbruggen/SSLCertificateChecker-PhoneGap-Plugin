@@ -12,8 +12,7 @@ cordova.commandProxy.add("SSLCertificateChecker", {
   check: function(successCallback, errorCallback, params) {
     var serverURL = params[0];
     // params[1] is irrelevant
-    var allowedSHA1Fingerprint = params[2];
-    var allowedSHA1FingerprintAlt = params[3];
+    var allowedSHA1Fingerprints = params[2];
 
     if (typeof errorCallback != "function") {
       console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
@@ -82,15 +81,14 @@ cordova.commandProxy.add("SSLCertificateChecker", {
             stateHolder.clientSocket.close();
             stateHolder.clientSocket = null;
 
-            var fpOK = allowedSHA1Fingerprint !== undefined && certFp == allowedSHA1Fingerprint.toUpperCase().split(' ').join('');
-            var fpAltOK = allowedSHA1FingerprintAlt !== undefined && certFp == allowedSHA1FingerprintAlt.toUpperCase().split(' ').join('');
-
-            if (fpOK || fpAltOK) {
-              successCallback("CONNECTION_SECURE");
-            } else {
+            for (var j = 0; j < allowedSHA1Fingerprints.length; j++) {
+              if (certFp == allowedSHA1Fingerprints[j].toUpperCase().split(' ').join('')) {
+                successCallback("CONNECTION_SECURE");
+                return;
+              }
+            }
               errorCallback("CONNECTION_NOT_SECURE");
             }
-          }
         }, function (reason) {
           // If this is an unknown status it means that the error is fatal and retry will likely fail.
           if (("number" in reason) &&
