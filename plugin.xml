@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
       	xmlns:android="http://schemas.android.com/apk/res/android"
-        id="nl.x-services.plugins.sslcertificatechecker"
-        version="3.5.0">
+        id="cordova-plugin-sslcertificatechecker"
+        version="4.0.0">
 
   <name>SSL Certificate Checker</name>
 
@@ -10,6 +10,8 @@
     This plugin allows allows you to check the SSL Certificate of the server you're connecting to.
     This can be useful for prevention of Man In The Middle attacks.
   </description>
+
+  <keywords>Certificate, SSL, Pinning, Man in the Middle, MitM</keywords>
 
   <license>MIT</license>
 

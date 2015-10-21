@@ -11,7 +11,6 @@ for PhoneGap 3.0.0 and up.
 	2. [PhoneGap Build](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#phonegap-build)
 3. [Usage](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#3-usage)
 4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-credits)
-5. [License](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#5-license)
 
 <table width="100%">
     <tr>
@@ -36,61 +35,20 @@ everytime you communicate with the server. In either case, you can add your logi
 
 ## 2. Installation
 
-### Automatically (CLI / Plugman)
-SSLCertificateChecker is compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and compatible with [PhoneGap 3.0 CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features), here's how it works with the CLI:
-
+Latest stable version from npm:
 ```
-$ phonegap local plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin.git
-```
-or
-```
-$ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin.git
-```
-Run `cordova prepare` or `cordova build` afterwards.
-
-### Manually
-
-1\. Add the following xml to your `config.xml`:
-```xml
-<!-- for iOS -->
-<feature name="SSLCertificateChecker">
-	<param name="ios-package" value="SSLCertificateChecker" />
-</feature>
+$ cordova plugin add cordova-plugin-sslcertificatechecker
 ```
 
-```xml
-<!-- for Android -->
-<feature name="SSLCertificateChecker">
-  <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
-</feature>
+Bleeding edge version from Github:
 ```
-
-2\. Grab a copy of SSLCertificateChecker.js, add it to your project and reference it in `index.html`:
-```html
-<script type="text/javascript" src="js/SSLCertificateChecker.js"></script>
+$ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin
 ```
-
-3\. Download the source files for iOS and/or Android and copy them to your project.
-
-Android:
-- Copy `SSLCertificateChecker.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
-
-iOS:
-- Add a dependency to `Security.framework`: Go to Your project > Build Phases > Link binaries with libraries > Click `+` > Security.framework.
-- Copy `SSLCertificateChecker.*` to `platforms/ios/<ProjectName>/Plugins`.
-
 
 ### PhoneGap Build
 
-Using SSLCertificateChecker with PhoneGap Build requires these simple steps:
-
-1\. Add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
-<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
-```
-or to use this exact version:
-```xml
-<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" version="3.2" />
+<gap:plugin name="cordova-plugin-sslcertificatechecker" source="npm" />
 ```
 
 ## 3. Usage
@@ -143,25 +101,3 @@ Note you may want to force clients to update the app when the new certificate is
 The iOS code was inspired by a closed-source, purely native certificate pinning implementation by Rob Bosman.
 
 [Jacob Weber](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin/issues/9) did some great work to support checking multiple certificates on iOS, thanks!
-
-## 5. License
-
-[The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.html)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
