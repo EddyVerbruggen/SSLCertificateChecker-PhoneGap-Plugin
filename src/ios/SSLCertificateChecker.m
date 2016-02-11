@@ -22,7 +22,7 @@
     self.sentResponse = FALSE;
     self._plugin = plugin;
     self._callbackId = callbackId;
-    self._checkInCertChain = checkInCertChain;
+    self._checkInCertChain = FALSE; // if for some reason this code is called we will still not check the chain because it's insecure
     self._allowedFingerprints = allowedFingerprints;
     return self;
 }

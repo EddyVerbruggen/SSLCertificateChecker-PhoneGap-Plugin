@@ -6,7 +6,7 @@ cordova.commandProxy.add("SSLCertificateChecker", {
       return
     }
     // note that this is entirely possible, but not implemented
-    errorCallback("Function not supported in the current Windows implementation of this plugin");
+    errorCallback("Function not supported in the current Windows implementation of this plugin, nor will it ever by because it's considered too insecure.");
   },
 
   check: function(successCallback, errorCallback, params) {

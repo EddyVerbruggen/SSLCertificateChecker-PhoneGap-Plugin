@@ -26,7 +26,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
         public void run() {
           try {
             final String serverURL = args.getString(0);
-            final Boolean checkInCertChain = args.getBoolean(1);
+            final Boolean checkInCertChain = false; // if for some reason this code is called we will still not check the chain because it's insecure
             final JSONArray allowedFingerprints = args.getJSONArray(2);
             String[] serverCertFingerprints = getFingerprints(serverURL);
 
