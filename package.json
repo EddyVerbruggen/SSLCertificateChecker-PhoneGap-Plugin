@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-sslcertificatechecker",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "This plugin allows allows you to check the SSL Certificate of the server you're connecting to. This can be useful for prevention of Man In The Middle attacks.",
   "cordova": {
     "id": "cordova-plugin-sslcertificatechecker",
