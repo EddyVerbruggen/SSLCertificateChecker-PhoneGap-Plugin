@@ -26,17 +26,12 @@ public class SSLCertificateChecker extends CordovaPlugin {
         public void run() {
           try {
             final String serverURL = args.getString(0);
-            final Boolean checkInCertChain = false; // if for some reason this code is called we will still not check the chain because it's insecure
             final JSONArray allowedFingerprints = args.getJSONArray(2);
-            String[] serverCertFingerprints = getFingerprints(serverURL);
-
-            int certChainCheckDepth = checkInCertChain ? serverCertFingerprints.length : 1;
-            for (int i=0; i<certChainCheckDepth; i++) {
-              for (int j=0; j<allowedFingerprints.length(); j++) {
-                if (allowedFingerprints.get(j).toString().equalsIgnoreCase(serverCertFingerprints[i])) {
-                  callbackContext.success("CONNECTION_SECURE");
-                  return;
-                }
+            final String serverCertFingerprint = getFingerprint(serverURL);
+            for (int j=0; j<allowedFingerprints.length(); j++) {
+              if (allowedFingerprints.get(j).toString().equalsIgnoreCase(serverCertFingerprint)) {
+                callbackContext.success("CONNECTION_SECURE");
+                return;
               }
             }
             callbackContext.error("CONNECTION_NOT_SECURE");
@@ -52,18 +47,14 @@ public class SSLCertificateChecker extends CordovaPlugin {
     }
   }
 
-  private static String[] getFingerprints(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
+  private static String getFingerprint(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
     final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
     con.setConnectTimeout(5000);
     con.connect();
-    final Certificate[] certs = con.getServerCertificates();
-    final String[] fingerprints = new String[certs.length];
+    final Certificate cert = con.getServerCertificates()[0];
     final MessageDigest md = MessageDigest.getInstance("SHA1");
-    for (int i=0; i<certs.length; i++) {
-      md.update(certs[i].getEncoded());
-      fingerprints[i]=dumpHex(md.digest());
-    }
-    return fingerprints;
+    md.update(cert.getEncoded());
+    return dumpHex(md.digest());
   }
 
   private static String dumpHex(byte[] data) {
