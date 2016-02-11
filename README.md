@@ -63,7 +63,7 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 
 ```javascript
   var server = "https://build.phonegap.com";
-  var fingerprint = "29 96 0F D5 FE 78 AA EF F4 36 CC 51 79 E4 8C 3C C7 B0 B7 8E";
+  var fingerprint = "2B 24 1B E0 D0 8C A6 41 68 C2 BB E3 60 0A DF 55 1A FC A8 45";
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
@@ -91,7 +91,7 @@ Need more than one fingerprint? In case your certificate is about to expire, you
 Note you may want to force clients to update the app when the new certificate is activated.
 ```javascript
   // an array of any number of fingerprints
-  var fingerprints = ["29 96 0F D5 FE 78 AA EF F4 36 CC 51 79 E4 8C 3C C7 B0 B7 8E", "SE CO ND", ..];
+  var fingerprints = ["2B 24 1B E0 D0 8C A6 41 68 C2 BB E3 60 0A DF 55 1A FC A8 45", "SE CO ND", ..];
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
