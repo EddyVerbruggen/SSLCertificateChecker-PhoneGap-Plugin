@@ -42,6 +42,9 @@
         <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
       </feature>
     </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+        <uses-permission android:name="android.permission.INTERNET" />
+    </config-file>
     <source-file src="src/android/nl/xservices/plugins/SSLCertificateChecker.java" target-dir="src/nl/xservices/plugins"/>
   </platform>
 
