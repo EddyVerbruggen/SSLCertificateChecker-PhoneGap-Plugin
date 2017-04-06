@@ -55,6 +55,7 @@ cordova.commandProxy.add("SSLCertificateChecker", {
         }, function (reason) {
           if (stateHolder.clientSocket.information.serverCertificateErrorSeverity ===
               Windows.Networking.Sockets.SocketSslErrorSeverity.ignorable) {
+            /*
             return shouldIgnoreCertificateErrorsAsync(
                 stateHolder.clientSocket.information.serverCertificateErrors)
                 .then(function (userAcceptedRetry) {
@@ -64,6 +65,9 @@ cordova.commandProxy.add("SSLCertificateChecker", {
                   errorCallback("CONNECTION_NOT_SECURE");
                   return
                 });
+            */
+            // if the severity is ignorable, move on to .done
+            return;
           }
           errorCallback("CONNECTION_FAILED. Details: " + reason);
         })
