@@ -34,6 +34,9 @@ cordova.commandProxy.add("SSLCertificateChecker", {
       if (strippedURL.indexOf("/") > -1) {
         strippedURL = strippedURL.substring(0, strippedURL.indexOf("/"));
       }
+      if (strippedURL.indexOf(":") > -1) {
+          strippedURL = strippedURL.substring(0, strippedURL.indexOf(":"));
+      }
       hostName = new Windows.Networking.HostName(strippedURL);
     } catch (error) {
       errorCallback("CONNECTION_FAILED. Details: Invalid serverURL, " + serverURL);
@@ -55,15 +58,8 @@ cordova.commandProxy.add("SSLCertificateChecker", {
         }, function (reason) {
           if (stateHolder.clientSocket.information.serverCertificateErrorSeverity ===
               Windows.Networking.Sockets.SocketSslErrorSeverity.ignorable) {
-            return shouldIgnoreCertificateErrorsAsync(
-                stateHolder.clientSocket.information.serverCertificateErrors)
-                .then(function (userAcceptedRetry) {
-                  if (userAcceptedRetry) {
-                    return connectSocketWithRetryHandleSslErrorAsync(hostName, serviceName);
-                  }
-                  errorCallback("CONNECTION_NOT_SECURE");
-                  return
-                });
+            // ignorable (http or self signed certificate), move on to .done
+            return;
           }
           errorCallback("CONNECTION_FAILED. Details: " + reason);
         })
