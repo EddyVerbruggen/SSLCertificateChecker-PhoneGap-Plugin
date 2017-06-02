@@ -12,9 +12,6 @@
 
 1. [Description](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#2-installation)
-2. [Automatically (CLI / Plugman)](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#automatically-cli--plugman)
-2. [Manually](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#manually)
-2. [PhoneGap Build](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#phonegap-build)
 3. [Usage](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#3-usage)
 4. [Credits](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#4-credits)
 
@@ -58,7 +55,7 @@ $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-Pho
 ### PhoneGap Build
 
 ```xml
-<gap:plugin name="cordova-plugin-sslcertificatechecker" source="npm" />
+<gap:plugin name="cordova-plugin-sslcertificatechecker" />
 ```
 
 ## 3. Usage
