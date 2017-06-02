@@ -1,8 +1,14 @@
-# PhoneGap SSL Certificate Checker plugin (iOS, Android, Windows Universal)
+# PhoneGap SSL Certificate Checker plugin
 
-by [Eddy Verbruggen](http://www.x-services.nl)
-for PhoneGap 3.0.0 and up.
+[![NPM version][npm-image]][npm-url]
+[![Downloads][downloads-image]][npm-url]
+[![Twitter Follow][twitter-image]][twitter-url]
 
+[npm-image]:http://img.shields.io/npm/v/cordova-plugin-sslcertificatechecker.svg
+[npm-url]:https://npmjs.org/package/cordova-plugin-sslcertificatechecker
+[downloads-image]:http://img.shields.io/npm/dm/cordova-plugin-sslcertificatechecker.svg
+[twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
+[twitter-url]:https://twitter.com/eddyverbruggen
 
 1. [Description](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/SSLCertificateChecker-PhoneGap-Plugin#2-installation)
