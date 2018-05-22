@@ -62,11 +62,13 @@ $ cordova plugin add https://github.com/EddyVerbruggen/SSLCertificateChecker-Pho
 
 First obtain the fingerprint of the SSL certificate of your server(s).
 You can find it f.i. by opening the server URL in Chrome. Then click the green certificate in front of the URL, click 'Connection',
-'Certificate details', expand the details and scroll down to the SHA1 fingerprint.
+'Certificate details', expand the details and scroll down to the **SHA256** fingerprint.
+
+> BEWARE: in plugin version < 6 you had to use SHA1, now it's SHA256 for iOS and Android (for Windows it's still SHA1 though).
 
 ```javascript
   var server = "https://build.phonegap.com";
-  var fingerprint = "2B 24 1B E0 D0 8C A6 41 68 C2 BB E3 60 0A DF 55 1A FC A8 45";
+  var fingerprint = "C6 2D 93 39 C2 9F 82 8E 1E BE FD DC 2D 7B 7D 24 31 1A 59 E1 0B 4B C8 04 6E 21 F6 FA A2 37 11 45";
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
@@ -82,7 +84,7 @@ You can find it f.i. by opening the server URL in Chrome. Then click the green c
 
    function errorCallback(message) {
      alert(message);
-     if (message == "CONNECTION_NOT_SECURE") {
+     if (message === "CONNECTION_NOT_SECURE") {
        // There is likely a man in the middle attack going on, be careful!
      } else if (message.indexOf("CONNECTION_FAILED") >- 1) {
        // There was no connection (yet). Internet may be down. Try again (a few times) after a little timeout.
@@ -94,7 +96,7 @@ Need more than one fingerprint? In case your certificate is about to expire, you
 Note you may want to force clients to update the app when the new certificate is activated.
 ```javascript
   // an array of any number of fingerprints
-  var fingerprints = ["2B 24 1B E0 D0 8C A6 41 68 C2 BB E3 60 0A DF 55 1A FC A8 45", "SE CO ND", ..];
+  var fingerprints = ["C6 2D 93 39 C2 9F 82 8E 1E BE FD DC 2D 7B 7D 24 31 1A 59 E1 0B 4B C8 04 6E 21 F6 FA A2 37 11 45", "SE CO ND", ..];
 
   window.plugins.sslCertificateChecker.check(
           successCallback,
