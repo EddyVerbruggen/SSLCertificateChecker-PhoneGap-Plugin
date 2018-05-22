@@ -36,7 +36,8 @@ public class SSLCertificateChecker extends CordovaPlugin {
             }
             callbackContext.error("CONNECTION_NOT_SECURE");
           } catch (Exception e) {
-            callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
+            callbackContext.error("CONNECTION_NOT_SECURE");
+            //callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
           }
         }
       });
@@ -52,7 +53,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
     con.setConnectTimeout(5000);
     con.connect();
     final Certificate cert = con.getServerCertificates()[0];
-    final MessageDigest md = MessageDigest.getInstance("SHA1");
+    final MessageDigest md = MessageDigest.getInstance("SHA256");
     md.update(cert.getEncoded());
     return dumpHex(md.digest());
   }
