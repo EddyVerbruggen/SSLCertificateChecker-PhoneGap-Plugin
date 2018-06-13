@@ -52,7 +52,7 @@ public class SSLCertificateChecker extends CordovaPlugin {
     final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
     con.setConnectTimeout(5000);
     con.connect();
-    final Certificate cert = con.getServerCertificates()[0];
+    final Certificate cert = con.getServerCertificates()[1];
     final MessageDigest md = MessageDigest.getInstance("SHA256");
     md.update(cert.getEncoded());
     return dumpHex(md.digest());
