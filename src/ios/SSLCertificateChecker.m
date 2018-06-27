@@ -35,7 +35,7 @@
     //    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
     [connection cancel];
     
-    CFIndex count = 1;
+    CFIndex count = 2;
     if (self._checkInCertChain) {
         count = SecTrustGetCertificateCount(trustRef);
     }
