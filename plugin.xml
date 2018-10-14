@@ -7,7 +7,7 @@
   <name>SSL Certificate Checker</name>
 
   <description>
-    This plugin allows allows you to check the SSL Certificate of the server you're connecting to.
+    This plugin allows you to check the SSL Certificate of the server you're connecting to.
     This can be useful for prevention of Man In The Middle attacks.
   </description>
 
