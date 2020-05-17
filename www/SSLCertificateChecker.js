@@ -30,6 +30,32 @@ SSLCertificateChecker.prototype.check = function (successCallback, errorCallback
   exec(successCallback, errorCallback, "SSLCertificateChecker", "check", [serverURL, false, fpArr]);
 };
 
+SSLCertificateChecker.prototype.checkIssuer = function (successCallback, errorCallback, serverURL, allowedIssuerOrArray, allowedIssuerAlt) {
+  if (typeof errorCallback != "function") {
+    console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");
+    return
+  }
+
+  if (typeof successCallback != "function") {
+    console.log("SSLCertificateChecker.find failure: successCallback parameter must be a function");
+    return
+  }
+
+  // if an array is not passed, transform the input into one
+  var issArr = [];
+  if (allowedIssuerOrArray !== undefined) {
+      if (typeof allowedIssuerOrArray == "string") {
+          issArr.push(allowedIssuerOrArray);
+      } else {
+          issArr = allowedIssuerOrArray.slice(0);
+      }
+  }
+  if (allowedIssuerAlt !== undefined) {
+      issArr.push(allowedIssuerAlt);
+  }
+  exec(successCallback, errorCallback, "SSLCertificateChecker", "checkissuer", [serverURL, false, issArr]);
+};
+
 SSLCertificateChecker.prototype.checkInCertChain = function (successCallback, errorCallback, serverURL, allowedSHA1FingerprintOrArray, allowedSHA1FingerprintAlt) {
   if (typeof errorCallback != "function") {
     console.log("SSLCertificateChecker.find failure: errorCallback parameter must be a function");

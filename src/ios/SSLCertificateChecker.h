@@ -5,4 +5,6 @@
 
 - (void)check:(CDVInvokedUrlCommand*)command;
 
+- (void)checkissuer:(CDVInvokedUrlCommand*)command;
+
 @end

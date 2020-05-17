@@ -11,12 +11,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
 
 public class SSLCertificateChecker extends CordovaPlugin {
 
   private static final String ACTION_CHECK_EVENT = "check";
+  private static final String ACTION_CHECKISSUER_EVENT = "checkissuer";
   private static char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
   @Override
@@ -42,8 +45,30 @@ public class SSLCertificateChecker extends CordovaPlugin {
         }
       });
       return true;
+    } else if (ACTION_CHECKISSUER_EVENT.equals(action)) {
+      cordova.getThreadPool().execute(new Runnable() {
+        public void run() {
+          try {
+            final String serverURL = args.getString(0);
+            final JSONArray allowedIssuers = args.getJSONArray(2);
+            final String serverCertIssuer = getIssuer(serverURL);
+
+            for (int j=0; j<allowedIssuers.length(); j++) {
+              if (allowedIssuers.get(j).toString().equalsIgnoreCase(serverCertIssuer)) {
+                callbackContext.success("CONNECTION_SECURE");
+                return;
+              }
+            }
+            callbackContext.error("CONNECTION_NOT_SECURE");
+          } catch (Exception e) {
+            callbackContext.error("CONNECTION_NOT_SECURE");
+            //callbackContext.error("CONNECTION_FAILED. Details: " + e.getMessage());
+          }
+        }
+      });
+      return true;
     } else {
-      callbackContext.error("sslCertificateChecker." + action + " is not a supported function. Did you mean '" + ACTION_CHECK_EVENT + "'?");
+      callbackContext.error("sslCertificateChecker." + action + " is not a supported function. Did you mean '" + ACTION_CHECK_EVENT + "' or '" + ACTION_CHECKISSUER_EVENT + "'?");
       return false;
     }
   }
@@ -69,5 +94,18 @@ public class SSLCertificateChecker extends CordovaPlugin {
       sb.append(HEX_CHARS[data[i] & 0x0F]);
     }
     return sb.toString();
+  }
+
+  private static String getIssuer(String httpsURL) throws IOException, NoSuchAlgorithmException, CertificateException, CertificateEncodingException {
+    final HttpsURLConnection con = (HttpsURLConnection) new URL(httpsURL).openConnection();
+    con.setConnectTimeout(5000);
+    con.connect();
+    final Certificate cert = con.getServerCertificates()[0];
+    if (cert instanceof X509Certificate) {
+      Principal principal = ((X509Certificate) cert).getIssuerDN();
+      return ((Principal) principal).getName();
+    } else {
+      return "";
+    }
   }
 }
